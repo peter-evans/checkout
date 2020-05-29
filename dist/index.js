@@ -5804,7 +5804,7 @@ class GitCommandManager {
             return output.exitCode === 0;
         });
     }
-    fetch(refSpec, fetchDepth) {
+    fetch(refSpec, fetchDepth, remoteName) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = ['-c', 'protocol.version=2', 'fetch'];
             if (!refSpec.some(x => x === refHelper.tagsRefSpec)) {
@@ -5817,7 +5817,12 @@ class GitCommandManager {
             else if (fshelper.fileExistsSync(path.join(this.workingDirectory, '.git', 'shallow'))) {
                 args.push('--unshallow');
             }
-            args.push('origin');
+            if (remoteName) {
+                args.push(remoteName);
+            }
+            else {
+                args.push('origin');
+            }
             for (const arg of refSpec) {
                 args.push(arg);
             }
@@ -5860,6 +5865,27 @@ class GitCommandManager {
         return __awaiter(this, void 0, void 0, function* () {
             const output = yield this.execGit(['log', '-1']);
             return output.stdout;
+        });
+    }
+    push(remoteName, ref, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = ['push'];
+            if (options) {
+                args.push.apply(args, options);
+            }
+            if (remoteName) {
+                args.push(remoteName);
+            }
+            if (ref) {
+                args.push(ref);
+            }
+            yield this.execGit(args);
+        });
+    }
+    rebase(remoteName, ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const output = yield this.execGit(['rebase', `${remoteName}/${ref}`]);
+            return !output.stdout.trim().endsWith('is up to date.');
         });
     }
     remoteAdd(remoteName, remoteUrl) {
