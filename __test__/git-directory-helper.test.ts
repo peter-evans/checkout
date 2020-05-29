@@ -414,6 +414,8 @@ async function setup(testName: string): Promise<void> {
     lfsFetch: jest.fn(),
     lfsInstall: jest.fn(),
     log1: jest.fn(),
+    push: jest.fn(),
+    rebase: jest.fn(),
     remoteAdd: jest.fn(),
     removeEnvironmentVariable: jest.fn(),
     revParse: jest.fn(),
