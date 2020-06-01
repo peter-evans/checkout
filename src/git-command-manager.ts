@@ -34,7 +34,7 @@ export interface IGitCommandManager {
   isDetached(): Promise<boolean>
   lfsFetch(ref: string): Promise<void>
   lfsInstall(): Promise<void>
-  log1(): Promise<string>
+  log1(options?: string[]): Promise<string>
   push(remoteName?: string, ref?: string, options?: string[]): Promise<void>
   rebase(remoteName: string, ref: string): Promise<boolean>
   remoteAdd(remoteName: string, remoteUrl: string): Promise<void>
