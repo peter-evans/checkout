@@ -5861,9 +5861,13 @@ class GitCommandManager {
             yield this.execGit(['lfs', 'install', '--local']);
         });
     }
-    log1() {
+    log1(options) {
         return __awaiter(this, void 0, void 0, function* () {
-            const output = yield this.execGit(['log', '-1']);
+            const args = ['log', '-1'];
+            if (options) {
+                args.push.apply(args, options);
+            }
+            const output = yield this.execGit(args);
             return output.stdout;
         });
     }
