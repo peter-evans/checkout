@@ -239,8 +239,12 @@ class GitCommandManager {
     await this.execGit(['lfs', 'install', '--local'])
   }
 
-  async log1(): Promise<string> {
-    const output = await this.execGit(['log', '-1'])
+  async log1(options?: string[]): Promise<string> {
+    const args = ['log', '-1']
+    if (options) {
+      args.push.apply(args, options)
+    }
+    const output = await this.execGit(args)
     return output.stdout
   }
 
